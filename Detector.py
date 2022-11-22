@@ -1,3 +1,5 @@
+import cv2
+
 dirSDD = "poner la direccion del archivo"
 
 detectorSSD = cv2.dnn.readNetFromCaffe(dirSDD+"deploy.prototxt" ,dirSDD+"res10_300x300_ssd_iter_140000.caffemodel")
@@ -16,16 +18,16 @@ def SSD_2_rectangles(detections, th):
         r1 = int(resizeW*detections[0][0][i][5])
         b1 = int(resizeH*detections[0][0][i][6])
         faces.append([x1,y1,r1-x1,b1-y1])
-    return faces    
+    return faces
 
 
 
 def detectFace_SSD():
 
-    capture = cv2.VideoCapture(0)
+    capture = cv2.VideoCapture("C:\\Users\\mjflores\\Documents\\MEGA\\Mis Programas\\Datos\\Conductor\\conductor2.avi")
 
     #Create two opencv named windows
-    nomb1 = "Main"    
+    nomb1 = "Main"
     cv2.namedWindow(nomb1, cv2.WINDOW_AUTOSIZE)
 
     #Position the windows next to each other
@@ -41,15 +43,14 @@ def detectFace_SSD():
             if not rc:
                 print("Can't receive frame (stream end?). Exiting ...")
                 break
-               
+
             baseImage = cv2.resize( fullSizeBaseImage, (resizeW, resizeH))
-            #baseImage = fullSizeBaseImage.copy()
 
             pressedKey = cv2.waitKey(1)
             if pressedKey == ord('q') or  pressedKey == ord('Q'):
                 cv2.destroyAllWindows()
                 exit(0)
-                               
+
             imageBlob = cv2.dnn.blobFromImage(image = baseImage)
 
             detectorSSD.setInput(imageBlob)
@@ -58,10 +59,10 @@ def detectFace_SSD():
             #In the console we can show that only now we are
             #using the detector for a face
             print("Using the SSD detector to detect face",k)
-            for (_x,_y,_w,_h) in faces:            
+            for (_x,_y,_w,_h) in faces:
                cv2.rectangle(baseImage, (_x,_y),(_x+_w,_y+_h),rectangleColor,2 )
-               print( "Liveness") 
-               print( "FER")
+               print( "Liveness module")
+               print( "FER module")
             #Finally, we want to show the images on the screen
             cv2.imshow(nomb1, baseImage)
 
