@@ -1,3 +1,4 @@
+# Face detector based on SSD
 import cv2
 
 dirSDD = "poner la direccion del archivo"
