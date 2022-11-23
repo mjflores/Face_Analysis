@@ -1,2 +1,2 @@
 # Face Detection
-Detection of face by using SSD
+Detection of face by using SSD and Opencv
