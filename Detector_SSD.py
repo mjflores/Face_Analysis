@@ -2,6 +2,7 @@
 import cv2
 
 dirSDD = "poner la direccion del archivo"
+dirVideo = "poner la direccion del video"
 
 detectorSSD = cv2.dnn.readNetFromCaffe(dirSDD+"deploy.prototxt" ,dirSDD+"res10_300x300_ssd_iter_140000.caffemodel")
 
@@ -25,7 +26,7 @@ def SSD_2_rectangles(detections, th):
 
 def detectFace_SSD():
 
-    capture = cv2.VideoCapture("C:\\Users\\mjflores\\Documents\\MEGA\\Mis Programas\\Datos\\Conductor\\conductor2.avi")
+    capture = cv2.VideoCapture(dirVideo+"video.avi")
 
     #Create two opencv named windows
     nomb1 = "Main"
