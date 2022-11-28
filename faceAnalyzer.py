@@ -14,26 +14,23 @@ from Emociones import emocion
 from Liveness import liveness
 
 #------- Carga de los Modelos ----------
-print("Cargando modelos de reconocimiento ...")
-
 # Rutas de los modelos
 directorio_modelos = "Modelos"
 
-rutah5emociones = directorio_modelos + "/ResNet50_model.h5"             # Ruta del modelo entrenado
-ruta_model_liv = directorio_modelos+"/liveness_model.h5"
-ruta_le = directorio_modelos + "/le.pickle"
-
-print("Cargando modelo de expresiones...")
-modelo_emociones = load_model(rutah5emociones)
-
-print("Modelo de expresiones cargado.")
+ruta_model_liv  = directorio_modelos + "/liveness_model.h5"
+ruta_le         = directorio_modelos + "/le.pickle"
 
 #print("Cargando modelo Liveness...")
-model_liv = load_model(ruta_model_liv)      # Creación de modelo liveness
+model_liv = load_model(ruta_model_liv)  
 le = pickle.loads(open(ruta_le,"rb").read())
-print("Modelo Liveness cargado.")
+print("Modelo Liveness cargado...")
 
-print("Inicializando modelo de reconocimiento de rostros...")
+rutah5emociones = directorio_modelos + "/ResNet50_model.h5"
+modelo_emociones = load_model(rutah5emociones)
+
+print("Modelo FER cargado...")
+
+
 face_cascade = cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
 print("Modelo de reconocimiento inicializado.")
 
@@ -41,7 +38,6 @@ print("Modelo de reconocimiento inicializado.")
 diccionario_emocion = {0: "Enojo", 1: "Disgusto", 2: "Miedo", 3: "Feliz", 4: "Neutral", 5: "Triste", 6: "Sorpresa"}
 img_size = 224      # Tamaño de la imagen para el pre-procesamiento
 size = 1
-
 
 def onClossing():
     root.quit()
