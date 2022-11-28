@@ -1,5 +1,7 @@
 # Face detector based on SSD
 import cv2
+# Descarga SDD
+# https://github.com/spmallick/learnopencv/tree/master/FaceDetectionComparison/models
 
 dirSDD = "poner la direccion del archivo"
 dirVideo = "poner la direccion del video"
@@ -9,7 +11,6 @@ detectorSSD = cv2.dnn.readNetFromCaffe(dirSDD+"deploy.prototxt" ,dirSDD+"res10_3
 
 resizeW, resizeH = 320, 240
 THRESHOLD_QUALITY_SSD = 11.75 #for SSD
-
 
 def SSD_2_rectangles(detections, th):
     faces = []
