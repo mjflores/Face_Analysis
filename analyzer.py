@@ -60,12 +60,13 @@ def callback():
         onClossing()
     
     frame = cv2.flip(frame, 1)
+    print("No tiene sentido flip")
 
     # grayscale image for face detection
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
     mini = cv2.resize(gray, (int(gray.shape[1] / size), int(gray.shape[0] / size)))
     # get face region coordinates
-    faces = face_cascade.detectMultiScale(mini)
+    faces = face_cascade.detectMultiScale(mini) 
     faces = sorted(faces, key=lambda x: x[3])
 
     if faces: # Para reconocimiento de un rostro a la vez por cuadro
@@ -87,6 +88,7 @@ def callback():
 
 
         face_frame = frame[limy_inf:limy_sup, limx_inf:limx_sup]
+          
         # Detectar Liveness
         liv_label = liveness.detectar_liveness(model_liv,le,face_frame,x,y,w,h)
       
@@ -94,8 +96,8 @@ def callback():
       
         # Predicir emoción
         altura, emociones = emocion.predecir_emocion(modelo_emociones,roi_gray,x,y,w,h)
-  
-     
+        print("Cambiar emocion por expresion")
+       
         # Imprimir expresiones faciales
         for i in range(7):
             cv2.putText(frame, diccionario_emocion[i]+'='+str(emociones[i]), (x+w, altura+(i*15)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, emocion.color_emocion(i), 1, cv2.LINE_AA)
