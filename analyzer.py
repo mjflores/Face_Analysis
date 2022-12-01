@@ -18,8 +18,9 @@ print("Cargando modelos de reconocimiento ...")
 # Rutas de los modelos
 directorio_modelos = "Modelos"
 
+ruta_model_liv  = directorio_modelos + "/liveness_model.h5"
 rutah5emociones = directorio_modelos + "/ResNet50_model.h5"             # Ruta del modelo entrenado
-ruta_model_liv = directorio_modelos+"/liveness_model.h5"
+
 
 print("Cargando modelo de expresiones...")
 modelo_emociones = load_model(rutah5emociones)                         # Creación de modelo emociones
@@ -31,12 +32,18 @@ le = ["fake", "real"]
 print("Modelo Liveness cargado.")
 
 print("Inicializando modelo de reconocimiento de rostros...")
-print("Cambiar cv2.CascadeClassifier")
+
+print("\n\n\t\tCambiar cv2.CascadeClassifier")
 face_cascade = cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
 print("Modelo de reconocimiento inicializado.")
 
+
 #--------- Constantes de ejecución --------------
 diccionario_emocion = {0: "Enojo", 1: "Disgusto", 2: "Miedo", 3: "Feliz", 4: "Neutral", 5: "Triste", 6: "Sorpresa"}
+
+print("diccionario_emocion renombrar como  diccionario_FER")
+print("diccionario_fer debe ser parte de archivo FER")
+
 img_size = 224      # Tamaño de la imagen para el pre-procesamiento
 size = 1
 factor = .35
