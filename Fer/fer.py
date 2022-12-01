@@ -4,6 +4,7 @@ import cv2
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
 
+print("Aqui diccionario_emocion....diccionario_expresion")
 
 def generar_modelo():
     from tensorflow.keras.applications import ResNet50
@@ -66,6 +67,7 @@ def predecir_expression(model,imagen,x,y,w,h):
     prediccion = model.predict(imagen_prediccion)
     imagen_prediccion = imagen_prediccion.astype(float)
     imagen_prediccion /= 255
+    print("En una sola linea 68 y 69")
     prediccion = model.predict(imagen_prediccion)
     expressions = porcentaje(prediccion[0])
     altura = y + (np.divide(h, 4.0))
