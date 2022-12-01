@@ -31,6 +31,7 @@ le = ["fake", "real"]
 print("Modelo Liveness cargado.")
 
 print("Inicializando modelo de reconocimiento de rostros...")
+print("Cambiar cv2.CascadeClassifier")
 face_cascade = cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
 print("Modelo de reconocimiento inicializado.")
 
