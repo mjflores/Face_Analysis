@@ -9,7 +9,7 @@ def detectar_liveness(model_liv,le,img,x,y,w,h):
     # le -- Codificador de etiquetas de clase (*.pickle)
     # img -- cuadro de la imagen obtenida del video
     # x,y,w,h -- coordenadas del cuadro del rostro, y ancho y alto
-	
+    print("Cambiar nombre model_liv por modelo_RestNet50_Liveness")	
     # ===============================         
     # Extrae la ROI del rostro y luego la prepocesa exactamente
     # de la misma manera que los datos de entrenamiento
