@@ -21,8 +21,8 @@ import numpy as np
 import time
 
 
-dirSSD   ="C:\\Users\\mjflores\\Documents\\MEGA\\Mis Programas\\Datos\\SSD_Face\\"
-dirVideo ="C:\\Users\\mjflores\\Documents\\MEGA\\Mis Programas\\Datos\\Conductor\\"
+dirSSD   ="path SSD"
+dirVideo ="path Video"
 
 
 
@@ -49,7 +49,6 @@ def SSD_2_rectangles(detections, th):
 
 # Create an instance of TKinter Window or frame
 win = Tk()
-#win.title("Video capture")
 win.wm_title("Video capture TK")
 win.config(background="#FFFFFF")
 
@@ -95,7 +94,7 @@ def show_frames():
 #==============================================================
 
 #cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture(dirVideo + "conductor1.avi")
+cap = cv2.VideoCapture(dirVideo + "myVideo.avi")
 
 
 show_frames()
