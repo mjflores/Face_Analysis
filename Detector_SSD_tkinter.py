@@ -24,14 +24,12 @@ import time
 dirSSD   ="path SSD"
 dirVideo ="path Video"
 
-
-
 detectorSSD = cv2.dnn.readNetFromCaffe(dirSSD+"deploy.prototxt" ,dirSSD+"res10_300x300_ssd_iter_140000.caffemodel")
 
-
 FPS = 30
-
 resizeW, resizeH = 320, 240
+
+#==============================================================
 
 def SSD_2_rectangles(detections, th):
     faces = []
@@ -46,17 +44,6 @@ def SSD_2_rectangles(detections, th):
     return faces
 
 #==============================================================
-
-# Create an instance of TKinter Window or frame
-win = Tk()
-win.wm_title("Video capture TK")
-win.config(background="#FFFFFF")
-
-# Set the size of the window
-win.geometry("640x480")# Create a Label to capture the Video frames
-
-label = Label(win)
-label.grid(row=0, column=0)
 
 # Define function to show frame
 def show_frames():
@@ -93,9 +80,21 @@ def show_frames():
 
 #==============================================================
 
+# Create an instance of TKinter Window or frame
+win = Tk()
+win.wm_title("Video capture TK")
+win.config(background="#FFFFFF")
+
+# Set the size of the window
+win.geometry("640x480")# Create a Label to capture the Video frames
+
+label = Label(win)
+label.grid(row=0, column=0)
+
+#==============================================================
+
 #cap = cv2.VideoCapture(0)
 cap = cv2.VideoCapture(dirVideo + "myVideo.avi")
-
 
 show_frames()
 win.mainloop()
