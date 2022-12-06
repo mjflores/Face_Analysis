@@ -1,9 +1,9 @@
 '''
-         Detctor de rostros usando SSD
+         Detector de rostros usando SSD
 
 
-El objetivo es acelerar la captura de imagenes y su visualizacion. No usa cv2.imshow()
-Para visualizar la imagen se usa TKinter
+El objetivo es acelerar la captura de imagenes y su visualizacion, por lo tanto, no usa cv2.imshow()
+En su lugar, para visualizar la imagen se usa TKinter
 
 
 Ref: 
