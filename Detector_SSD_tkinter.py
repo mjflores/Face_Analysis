@@ -24,7 +24,10 @@ import time
 dirSSD   ="path SSD"
 dirVideo ="path Video"
 
-detectorSSD = cv2.dnn.readNetFromCaffe(dirSSD+"deploy.prototxt" ,dirSSD+"res10_300x300_ssd_iter_140000.caffemodel")
+try:
+    detectorSSD = cv2.dnn.readNetFromCaffe(dirSSD+"deploy.prototxt" ,dirSSD+"res10_300x300_ssd_iter_140000.caffemodel")
+except Exception as e:
+    print('Warning...',e)
 
 FPS = 30
 resizeW, resizeH = 320, 240
