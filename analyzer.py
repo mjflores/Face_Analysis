@@ -7,9 +7,10 @@ from PIL import Image, ImageTk
 import numpy as np
 from tensorflow.keras.models import load_model
 import tensorflow as tf
+import pickle
 
 #------- Subprogramas -----------------
-from Fer import fer
+from Emociones import emocion
 from Liveness import liveness
 
 #------- Carga de los Modelos ----------
@@ -18,35 +19,43 @@ print("Cargando modelos de reconocimiento ...")
 # Rutas de los modelos
 directorio_modelos = "Modelos"
 
-ruta_model_liv  = directorio_modelos + "/liveness_model.h5"
 rutah5emociones = directorio_modelos + "/ResNet50_model.h5"             # Ruta del modelo entrenado
-
+ruta_model_liv = directorio_modelos+"/liveness_model.h5"
+ruta_le = directorio_modelos + "/le.pickle"
+dirSSD = directorio_modelos + "/ssd/"
 
 print("Cargando modelo de expresiones...")
-modelo_emociones = load_model(rutah5emociones)                         # Creación de modelo emociones
+modelo_emociones = emocion.generar_modelo()                               # Creación de modelo emociones
+modelo_emociones.load_weights(rutah5emociones) #Cargar pesos modelo emociones
 print("Modelo de expresiones cargado.")
 
 print("Cargando modelo Liveness...")
 model_liv = load_model(ruta_model_liv)      # Creación de modelo liveness
-le = ["fake", "real"]
+le = pickle.loads(open(ruta_le,"rb").read())
 print("Modelo Liveness cargado.")
 
 print("Inicializando modelo de reconocimiento de rostros...")
-
-print("\n\n\t\tCambiar cv2.CascadeClassifier")
-face_cascade = cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
+detectorSSD = cv2.dnn.readNetFromCaffe(dirSSD+"deploy.prototxt" ,dirSSD+"res10_300x300_ssd_iter_140000.caffemodel")
 print("Modelo de reconocimiento inicializado.")
-
 
 #--------- Constantes de ejecución --------------
 diccionario_emocion = {0: "Enojo", 1: "Disgusto", 2: "Miedo", 3: "Feliz", 4: "Neutral", 5: "Triste", 6: "Sorpresa"}
-
-print("diccionario_emocion renombrar como  diccionario_FER")
-print("diccionario_fer debe ser parte de archivo FER")
-
 img_size = 224      # Tamaño de la imagen para el pre-procesamiento
 size = 1
-factor = .35
+
+resizeW, resizeH = 320, 240
+
+def SSD_2_rectangles(detections, th):
+    faces = []
+    for i in range(detections[0][0].shape[0]):
+      if(detections[0][0][i][2]>th):
+        #print("Parametros ", detections[0][0][i])
+        x1 = int(resizeW*detections[0][0][i][3])
+        y1 = int(resizeH*detections[0][0][i][4])
+        r1 = int(resizeW*detections[0][0][i][5])
+        b1 = int(resizeH*detections[0][0][i][6])
+        faces.append([x1,y1,r1-x1,b1-y1])
+    return faces
 
 def onClossing():
     root.quit()
@@ -60,48 +69,39 @@ def callback():
         onClossing()
     
     frame = cv2.flip(frame, 1)
-    print("No tiene sentido flip")
 
     # grayscale image for face detection
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    mini = cv2.resize(gray, (int(gray.shape[1] / size), int(gray.shape[0] / size)))
-    # get face region coordinates
-    faces = face_cascade.detectMultiScale(mini) 
-    faces = sorted(faces, key=lambda x: x[3])
+
+    baseImage = cv2.resize(gray, (resizeW, resizeH))
+    imageBlob = cv2.dnn.blobFromImage(image = baseImage)
+
+    detectorSSD.setInput(imageBlob)
+    faces = SSD_2_rectangles(detectorSSD.forward(), 0.70)
 
     if faces: # Para reconocimiento de un rostro a la vez por cuadro
         face_i = faces[0]
         (x, y, w, h) = [v * size for v in face_i]
         roi_gray    = gray[y:y + h, x:x + w]
-        roi_gray   = tf.keras.utils.img_to_array(roi_gray)
+        roi_gray1   = tf.keras.utils.img_to_array(roi_gray)
 
         # Colocar cuadro de rostro
         cv2.rectangle(frame,(x,y),(x+w,y+h),(50,50,200),2)
-        y_sca_inf = y-int(factor*h)
-        y_sca_sup = y+int((1+factor)*h)
-        x_sca_inf = x-int(factor*w)
-        x_sca_sup = x+int((1+factor)*w)
-        limy_inf = y_sca_inf if y_sca_inf > 0  else 0
-        limy_sup = y_sca_sup if y_sca_sup < frame.shape[0] else frame.shape[0]
-        limx_inf = x_sca_inf if x_sca_inf > 0  else 0
-        limx_sup = x_sca_sup if x_sca_sup < frame.shape[1] else frame.shape[1]
 
-
-        face_frame = frame[limy_inf:limy_sup, limx_inf:limx_sup]
-          
         # Detectar Liveness
-        liv_label = liveness.detectar_liveness(model_liv,le,face_frame,x,y,w,h)
+        liv_label = liveness.detectar_liveness(model_liv,le,frame,x,y,w,h)
       
         cv2.putText(frame, liv_label, (x+5, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
       
         # Predicir emoción
-        altura, emociones = emocion.predecir_emocion(modelo_emociones,roi_gray,x,y,w,h)
-        print("Cambiar emocion por expresion")
-       
+        altura, emociones = emocion.predecir_emocion(modelo_emociones,roi_gray1,x,y,w,h)
+  
+     
         # Imprimir expresiones faciales
         for i in range(7):
             cv2.putText(frame, diccionario_emocion[i]+'='+str(emociones[i]), (x+w, altura+(i*15)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, emocion.color_emocion(i), 1, cv2.LINE_AA)
-     
+
+                
 
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     img = Image.fromarray(img)
