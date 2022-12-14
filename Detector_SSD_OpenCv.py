@@ -1,10 +1,13 @@
-# Face detector based on SSD  and OpenCv 
-# This program uses imshow() to visualize the imagen
+'''
+                                Face detector based on SSD  and OpenCv 
+ This program uses imshow() to visualize the imagen
+ 
+ Descarga SDD:
+    https://github.com/spmallick/learnopencv/tree/master/FaceDetectionComparison/models
+
+'''
 
 import cv2
-# Descarga SDD
-# https://github.com/spmallick/learnopencv/tree/master/FaceDetectionComparison/models
-
 dirSDD = "poner la direccion del archivo"
 dirVideo = "poner la direccion del video"
 
