@@ -9,6 +9,9 @@ En su lugar, para visualizar la imagen se usa TKinter
 Ref: 
    https://www.tutorialspoint.com/using-opencv-with-tkinter
    https://stackoverflow.com/questions/32342935/using-opencv-with-tkinter
+   
+Descarga SDD:
+   https://github.com/spmallick/learnopencv/tree/master/FaceDetectionComparison/models
 
 '''
 #------- Librerias para GUI ------------
