@@ -1,3 +1,27 @@
+'''
+                        Cut patches of eyes and mouth
+
+This program is used to crop the eye and mouth area.
+After that, the images are saved in two folders: eyes and mouth
+
+Camera: OpenCv
+Face detector:      dlib -> HOG-SVM and CNN
+Eye localization:   dlib -> shape_predictor
+Mouth localization: dlib -> shape_predictor
+
+@author: mjflores
+@date:   20/12/2022
+@ref: 
+    https://www.pyimagesearch.com/2017/04/24/eye-blink-detection-opencv-python-dlib/
+    https://medium.datadriveninvestor.com/training-alternative-dlib-shape-predictor-models-using-python-d1d8f8bd9f5c
+@models:
+    https://github.com/davisking/dlib-models
+
+python3==3.10.6   
+opencv-contrib-python==4.5.5.64
+opencv-python==4.5.5.64
+'''
+
 import numpy as np
 import dlib
 import cv2
