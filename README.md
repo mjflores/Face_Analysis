@@ -1,6 +1,4 @@
-# *Face Analysis*
-Un conjunto de algoritmos de análisis facial usando CNN
-1. FER
-2. Liveness
-3. Orientation
-4. Eye/mounth
+# *Eye and mouth dataset*
+
+This program is used to crop the eye and mouth area.
+After that, the images are saved in two folders: Eyes and Mouth
