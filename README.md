@@ -1,6 +1,7 @@
-# *Face Analysis*
-Un conjunto de algoritmos de análisis facial usando CNN
+# *FER and Liveness*
+This program uses CNN models to
 1. FER
 2. Liveness
-3. Orientation
-4. Eye/mounth
+
+The second model was training following a transfer learning with fine tuning strategy over RESNET50
+
