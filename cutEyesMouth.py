@@ -136,7 +136,9 @@ detectorFace   = dlib.cnn_face_detection_model_v1(dirSP+"mmod_human_face_detecto
 #shapePredictor = dlib.shape_predictor(dirSP+"shape_predictor_68_face_landmarks.dat")
 shapePredictor = dlib.shape_predictor(dirSP+"shape_predictor_68_face_landmarks_GTX.dat")
 
-vs = cv2.VideoCapture(dirVideos+"conductor2.avi") #initialize video capture
+vs = cv2.VideoCapture(dirVideos+"yourVideo.avi") #initialize video capture
+#vs = cv2.VideoCapture(0) #webcam
+
 titleFrame = "Eyes and mouth"
 cv2.namedWindow(titleFrame, cv2.WINDOW_AUTOSIZE)
 cv2.moveWindow(titleFrame,200,100)
